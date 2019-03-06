@@ -1,5 +1,5 @@
 class UI {
-  constructor(id) {
+  constructor() {
     
     this.budgetFeedback = document.querySelector(".budget-feedback");
     this.expenseFeedback = document.querySelector(".expense-feedback");
@@ -16,9 +16,24 @@ class UI {
     this.itemList = [];
     this.itemID = 0;
   }
+  //submit budget method
   submitBudgetForm(){
-    
+    const value = this.budgetInput.value;
+    if(value==='' || value <0){
+      this.budgetFeedback.classList.add('showItem');
+      this.budgetFeedback.innerHTML = '<p>value cannot be empty or negative</p>';
+      const self = this;
+      setTimeout(function(){
+        self.budgetFeedback.classList.remove("showItem");
+      }, 3000)
+    }
+    else {
+      this.budgetAmount.textContent = value;
+      this.budgetInput.value = '';
+      this.showBalance();
+    }
   }
+
 }
 
 
@@ -28,18 +43,19 @@ function eventListenters(){
   const expenseList = document.getElementById('expense-list');
 
   //new instance of UI Class
-  const ui = new UI();
+  const ui = new UI()
 
   // budget form submit
   budgetForm.addEventListener("submit", function(event){
-
+    event.preventDefault();
+    ui.submitBudgetForm();
   })
   // expense form submit
-  budgetForm.addEventListener("submit", function(event){
-    
+  expenseForm.addEventListener("submit", function(event){
+    event.preventDefault();
   })
   // expense click
-  budgetForm.addEventListener("click", function(event){
+  expenseList.addEventListener("click", function(event){
     
   })
 }
